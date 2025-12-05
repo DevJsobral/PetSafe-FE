@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ps-teal: #1B4965;
+  --ps-orange: #FFB703;
+}
+
+/* Garantir altura total e sem margins */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Modo Claro - Fundo degradê suave NO HTML */
+html {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+
+html.dark {
+  background: #000000 !important;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: transparent !important;
+  min-height: 100vh;
+  color: #1F2937;
+}
+
+/* FORÇAR fundo transparente em TUDO no modo escuro */
+.dark body,
+.dark #root,
+.dark #root > div,
+.dark main,
+.dark .app,
+.dark .container,
+.dark > div {
+  background: transparent !important;
+}
+
+/* Modo claro - garantir fundo branco no conteúdo */
+body,
+#root,
+#root > div {
+  background: transparent;
+}
+
+/* Modo Escuro - Fundo PRETO PURO no HTML */
+.dark html {
+  background: #000000 !important;
+}
+
+.dark body {
+  background: transparent !important;
+  color: #F5F5F5;
+}
+
+/* Garantir que TUDO seja transparente ou preto no dark mode */
+.dark #root,
+.dark .app,
+.dark main {
+  background: transparent !important;
+}
+
+/* Container do conteúdo - sem limite de largura no fundo */
+.dark .container {
+  background: transparent !important;
+}
+
+/* Espaçamento e padding para o conteúdo principal */
+main, .main-content {
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  background: transparent !important;
+}
+
+/* Cards no dark mode com sombras de contraste */
+.dark .shadow-sm {
+  box-shadow: 0 1px 3px 0 rgba(255, 255, 255, 0.05), 0 1px 2px -1px rgba(255, 255, 255, 0.03);
+}
+
+.dark .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -2px rgba(255, 255, 255, 0.03);
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.08), 0 4px 6px -4px rgba(255, 255, 255, 0.05);
+}
+
+.dark .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(255, 255, 255, 0.1), 0 8px 10px -6px rgba(255, 255, 255, 0.06);
+}
+
+/* Hover effects nos cards - modo escuro */
+.dark .hover\:shadow-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(14, 165, 233, 0.15), 0 8px 10px -6px rgba(14, 165, 233, 0.1);
+}
+
+/* Smooth transitions globais */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Scrollbar customizada - Modo Claro */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Scrollbar customizada - Modo Escuro */
+.dark ::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* Animações de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Glow effect para inputs em foco - modo escuro */
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
+}
+
+/* Melhor contraste para bordas no modo escuro */
+.dark .border-gray-100 {
+  border-color: #1a1a1a !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #252525 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #2a2a2a !important;
+}
+
+/* Cards com elevação sutil no modo escuro */
+.dark .bg-gray-800 {
+  background-color: #0d0d0d !important;
+  border: 1px solid #1a1a1a;
+}
+
+.dark .bg-gray-700 {
+  background-color: #121212 !important;
+}
+
+/* Hover states mais visíveis no dark */
+.dark .hover\:bg-gray-700:hover {
+  background-color: #1a1a1a !important;
+}
+
+.dark .hover\:bg-teal-900\/20:hover {
+  background-color: rgba(20, 184, 166, 0.15) !important;
+}
+
+/* Text colors otimizados para fundo preto */
+.dark .text-gray-400 {
+  color: #a0a0a0 !important;
+}
+
+.dark .text-gray-500 {
+  color: #888888 !important;
+}
+
+.dark .text-gray-600 {
+  color: #999999 !important;
+}

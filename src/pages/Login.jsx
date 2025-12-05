@@ -1,0 +1,64 @@
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../api'
+import Toast from '../components/Toast'
+
+export default function Login(){
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState(null)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if(!email || !password){ setToast('Preencha email e senha'); return }
+    setLoading(true)
+    try{
+      await auth.login(email, password)
+      setToast('Login realizado')
+      navigate('/dashboard')
+    }catch(err){
+      setToast(err.message || 'Erro no login')
+    }finally{ setLoading(false) }
+  }
+  return (
+    <div className="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mt-8">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">Entrar</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+          <input 
+            required 
+            value={email} 
+            onChange={e=>setEmail(e.target.value)} 
+            type="email" 
+            placeholder="seu@email.com" 
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent transition-all" 
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Senha</label>
+          <input 
+            required 
+            value={password} 
+            onChange={e=>setPassword(e.target.value)} 
+            type="password" 
+            placeholder="••••••••" 
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent transition-all" 
+          />
+        </div>
+        <button 
+          type="submit" 
+          className="w-full py-3 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white rounded-lg font-medium transition-colors shadow-sm"
+        >
+          {loading ? 'Aguarde...' : 'Entrar'}
+        </button>
+      </form>
+      <p className="mt-6 text-sm text-center text-gray-600 dark:text-gray-400">
+        Não tem conta? <Link to="/register" className="text-teal-600 dark:text-teal-400 font-medium hover:text-teal-700 dark:hover:text-teal-300">Cadastre-se</Link>
+      </p>
+      <Toast message={toast} onClose={()=>setToast(null)} />
+    </div>
+  )
+}
