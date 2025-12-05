@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { pets as petsApi } from '../api'
+import { publicApi } from '../api'
 import Loading from '../components/Loading'
 
 export default function PublicProfile() {
@@ -16,25 +16,20 @@ export default function PublicProfile() {
   const loadData = async () => {
     setLoading(true)
     try {
-      // Buscar dados do usuário do localStorage (simulado)
-      const raw = localStorage.getItem('petsafe_data_v1')
-      if (raw) {
-        const state = JSON.parse(raw)
-        const foundUser = state.users?.find(u => u.id === userId) || state.users?.[0]
-        setUser(foundUser)
-      }
-
       if (petId) {
         // Mostrar apenas um pet específico
-        const pet = await petsApi.get(petId)
-        setData({ type: 'pet', pet })
-      } else {
+        const response = await publicApi.getPet(petId)
+        setData({ type: 'pet', pet: response.pet })
+        setUser(response.owner)
+      } else if (userId) {
         // Mostrar todos os pets do usuário
-        const pets = await petsApi.list()
-        setData({ type: 'profile', pets })
+        const userData = await publicApi.getUserProfile(userId)
+        setUser(userData)
+        setData({ type: 'profile', pets: userData.pets })
       }
     } catch (err) {
       console.error('Erro ao carregar dados públicos:', err)
+      setData(null)
     } finally {
       setLoading(false)
     }
@@ -116,6 +111,13 @@ export default function PublicProfile() {
                   <>
                     <p className="text-gray-900 dark:text-white font-semibold">{user.name}</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+                    {user.emergencyPhone && (
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        📱 <a href={`tel:${user.emergencyPhone}`} className="text-teal-600 dark:text-teal-400 hover:underline">
+                          {user.emergencyPhone}
+                        </a>
+                      </p>
+                    )}
                   </>
                 )}
               </div>
@@ -175,6 +177,13 @@ export default function PublicProfile() {
                 <>
                   <p className="text-xl font-semibold text-teal-600 dark:text-teal-400 mb-1">{user.name}</p>
                   <p className="text-gray-600 dark:text-gray-400">{user.email}</p>
+                  {user.emergencyPhone && (
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
+                      📱 <a href={`tel:${user.emergencyPhone}`} className="text-teal-600 dark:text-teal-400 hover:underline font-medium">
+                        {user.emergencyPhone}
+                      </a>
+                    </p>
+                  )}
                 </>
               )}
             </div>

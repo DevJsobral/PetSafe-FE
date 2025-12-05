@@ -106,7 +106,8 @@ export const auth = {
       body: JSON.stringify({
         username: data.name,
         email: data.email,
-        password: data.password
+        password: data.password,
+        emergencyPhone: data.emergencyPhone || null
       })
     });
 
@@ -287,3 +288,28 @@ export const pets = {
       return handleResponse(response);
     }
   };
+
+// Public endpoints (não requerem autenticação)
+export const publicApi = {
+  getUserProfile: async (userId) => {
+    const response = await fetch(`${API_BASE_URL}/public/user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return handleResponse(response);
+  },
+
+  getPet: async (petId) => {
+    const response = await fetch(`${API_BASE_URL}/public/pet/${petId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return handleResponse(response);
+  }
+};

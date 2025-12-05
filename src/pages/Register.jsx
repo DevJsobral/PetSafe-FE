@@ -8,16 +8,17 @@ export default function Register(){
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [emergencyPhone, setEmergencyPhone] = useState('')
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if(!name || !email || !password){ setToast('Preencha todos os campos'); return }
+    if(!name || !email || !password){ setToast('Preencha todos os campos obrigatórios'); return }
     if(password.length < 6){ setToast('Senha deve ter pelo menos 6 caracteres'); return }
     setLoading(true)
     try{
-      await auth.register({ name, email, password })
+      await auth.register({ name, email, password, emergencyPhone: emergencyPhone || null })
       setToast('Conta criada com sucesso')
       navigate('/dashboard')
     }catch(err){
@@ -60,6 +61,21 @@ export default function Register(){
             placeholder="Mínimo 6 caracteres" 
             className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent transition-all" 
           />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            📞 Telefone de Emergência <span className="text-gray-500 text-xs">(opcional)</span>
+          </label>
+          <input 
+            value={emergencyPhone} 
+            onChange={e=>setEmergencyPhone(e.target.value)} 
+            type="tel" 
+            placeholder="(11) 99999-9999" 
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:border-transparent transition-all" 
+          />
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+            Este número aparecerá no QR Code para contato em caso de emergência
+          </p>
         </div>
         <button 
           type="submit" 
